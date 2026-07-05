@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Carène de frégate — Hydrostatique &amp; stabilité | Ayoub Jemel</title>
+<style>
+  :root{
+    --navy:#1E2761; --navy2:#2A3580; --ice:#CADCFC; --gold:#F2A900;
+    --dark:#212934; --muted:#6B7280; --bg:#F7F9FC;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Segoe UI',system-ui,Arial,sans-serif;color:var(--dark);background:var(--bg);line-height:1.6}
+  .wrap{max-width:1050px;margin:0 auto;padding:0 24px}
+
+  /* Hero */
+  header{background:linear-gradient(160deg,var(--navy) 0%,var(--navy2) 100%);color:#fff;padding:72px 0 64px}
+  header h1{font-size:2.6rem;line-height:1.15;font-family:Cambria,Georgia,serif}
+  header .sub{color:var(--ice);font-size:1.25rem;margin-top:12px}
+  header .who{margin-top:28px;font-size:1rem;color:#fff}
+  header .who a{color:var(--gold);text-decoration:none;font-weight:600}
+  .badge{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);
+         border-radius:20px;padding:4px 14px;font-size:.85rem;margin-bottom:18px;color:var(--ice)}
+
+  /* Sections */
+  section{padding:56px 0}
+  h2{font-size:1.7rem;color:var(--navy);font-family:Cambria,Georgia,serif;margin-bottom:22px}
+  p.lead{font-size:1.05rem;max-width:820px}
+
+  /* Stats */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:18px;margin-top:28px}
+  .stat{background:#fff;border-radius:14px;padding:22px 20px;box-shadow:0 2px 10px rgba(30,39,97,.08)}
+  .stat .v{font-size:1.9rem;font-weight:700;color:var(--navy);font-family:Cambria,Georgia,serif}
+  .stat .l{font-size:.86rem;color:var(--muted);margin-top:4px}
+  .stat.gold .v{color:var(--gold)}
+
+  /* Steps */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:18px}
+  .step{background:#fff;border-radius:14px;padding:24px;box-shadow:0 2px 10px rgba(30,39,97,.08)}
+  .step .n{width:36px;height:36px;border-radius:50%;background:var(--navy);color:#fff;display:flex;
+           align-items:center;justify-content:center;font-weight:700;margin-bottom:12px}
+  .step h3{font-size:1.05rem;color:var(--navy);margin-bottom:6px}
+  .step p{font-size:.92rem;color:var(--muted)}
+
+  /* Gallery */
+  .gal{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px}
+  .fig{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(30,39,97,.08)}
+  .fig img{width:100%;display:block;background:#fff}
+  .fig .cap{padding:14px 18px;font-size:.9rem;color:var(--muted)}
+  .fig .cap b{color:var(--navy)}
+
+  /* Validation */
+  .valid{background:#fff;border-radius:14px;padding:28px;box-shadow:0 2px 10px rgba(30,39,97,.08);
+         display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:760px}
+  .valid .box{text-align:center;padding:18px;border-radius:10px}
+  .valid .box:first-child{border:2px solid var(--navy)}
+  .valid .box:last-child{border:2px solid var(--gold)}
+  .valid .big{font-size:2rem;font-weight:700;font-family:Cambria,Georgia,serif}
+  .valid .box:first-child .big{color:var(--navy)}
+  .valid .box:last-child .big{color:var(--gold)}
+  .note{font-size:.9rem;color:var(--muted);margin-top:14px;font-style:italic}
+
+  /* Downloads */
+  .dl{display:flex;flex-wrap:wrap;gap:14px}
+  .btn{display:inline-block;background:var(--navy);color:#fff;text-decoration:none;padding:12px 22px;
+       border-radius:10px;font-size:.95rem;font-weight:600;transition:background .15s}
+  .btn:hover{background:var(--navy2)}
+  .btn.alt{background:#fff;color:var(--navy);border:2px solid var(--navy)}
+
+  footer{background:var(--navy);color:var(--ice);padding:34px 0;font-size:.9rem}
+  footer a{color:var(--gold);text-decoration:none}
+  .alt-bg{background:#EEF3FB}
+  @media(max-width:640px){header h1{font-size:1.9rem}.valid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="badge">Projet personnel — Architecture navale</span>
+    <h1>Carène de frégate :<br>hydrostatique &amp; stabilité par le code</h1>
+    <p class="sub">Un outil Python complet : de la génération paramétrique de la coque
+    à la courbe de stabilité GZ, avec export vers la CAO.</p>
+    <p class="who">Par <b>Ayoub Jemel</b> — Licence Physique CUPGE, UBS Lorient ·
+      Candidat ENSTA Bretagne (architecture navale) ·
+      <a href="https://www.linkedin.com/in/ayoub-jemel-a025a83ab/" target="_blank">LinkedIn</a>
+      <span id="ghlink"></span>
+    </p>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>Le navire en chiffres</h2>
+    <p class="lead">Une frégate de surface générée par un modèle paramétrique
+    (L = 100 m, B = 14 m, T = 4,5 m). Tous les résultats ci-dessous sont calculés
+    par le code, sans logiciel métier.</p>
+    <div class="stats">
+      <div class="stat"><div class="v">2 870 t</div><div class="l">Déplacement</div></div>
+      <div class="stat"><div class="v">0,444</div><div class="l">Coefficient de bloc C<sub>b</sub></div></div>
+      <div class="stat gold"><div class="v">1,15 m</div><div class="l">Hauteur métacentrique GM</div></div>
+      <div class="stat"><div class="v">0,59 m</div><div class="l">GZ max, atteint à 45°</div></div>
+      <div class="stat"><div class="v">83°</div><div class="l">Limite de stabilité statique</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt-bg">
+  <div class="wrap">
+    <h2>La démarche</h2>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><h3>Géométrie paramétrique</h3>
+        <p>La coque est décrite par une fonction de demi-largeur b(x,z) pilotée par
+        quelques paramètres. Changer la largeur régénère tout le navire.</p></div>
+      <div class="step"><div class="n">2</div><h3>Hydrostatique</h3>
+        <p>Volume, déplacement, centre de carène et métacentre calculés par la
+        méthode de Simpson, codée à la main, comme les architectes navals.</p></div>
+      <div class="step"><div class="n">3</div><h3>Stabilité GZ</h3>
+        <p>Le navire est incliné numériquement de 0 à 90° : découpe des sections par
+        la flottaison, volume conservé par dichotomie, bras de redressement GZ.</p></div>
+      <div class="step"><div class="n">4</div><h3>Export CAO</h3>
+        <p>La coque part vers Fusion 360 en STL et DXF (couples à lofter), avec la
+        table des cotes au format tableur.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Résultats graphiques</h2>
+    <div class="gal">
+      <div class="fig"><img src="assets/3_vue_3d.png" alt="Vue 3D de la carène">
+        <div class="cap"><b>Carène 3D.</b> Sections en U, affinement vers l'étrave et la poupe.</div></div>
+      <div class="fig"><img src="assets/1_plan_des_formes.png" alt="Plan des formes">
+        <div class="cap"><b>Plan des formes.</b> Les couples (sections transversales), flottaison en rouge.</div></div>
+      <div class="fig"><img src="assets/2_courbe_des_aires.png" alt="Courbe des aires">
+        <div class="cap"><b>Courbe des aires.</b> Son intégrale par Simpson donne le volume immergé.</div></div>
+      <div class="fig"><img src="assets/4_courbe_gz.png" alt="Courbe de stabilité GZ">
+        <div class="cap"><b>Courbe de stabilité GZ(θ).</b> Pente initiale = GM, maximum à 45°, annulation à 83°.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt-bg">
+  <div class="wrap">
+    <h2>Validation du calcul</h2>
+    <p class="lead">La hauteur métacentrique GM est obtenue par deux méthodes
+    totalement indépendantes. Leur concordance (écart &lt; 1,5 %) valide la chaîne
+    de calcul complète.</p>
+    <br>
+    <div class="valid">
+      <div class="box"><div class="big">1,146 m</div><div>GM par l'hydrostatique<br>(It / ∇ + KB − KG)</div></div>
+      <div class="box"><div class="big">1,131 m</div><div>GM par la pente à l'origine<br>de la courbe GZ</div></div>
+    </div>
+    <p class="note">La formule des murailles droites confirme également la courbe GZ
+    aux angles modérés, puis diverge au-delà de 40°, conformément à la théorie.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Documents</h2>
+    <div class="dl">
+      <a class="btn" href="../RAPPORT.md" download>Rapport technique</a>
+      <a class="btn" href="../presentation/presentation.pptx" download>Présentation (PowerPoint)</a>
+      <a class="btn alt" href="../exports/table_des_cotes.csv" download>Table des cotes (CSV)</a>
+      <a class="btn alt" href="../exports/carene.stl" download>Maillage STL</a>
+    </div>
+    <p class="note">Phase 2 prévue (2027) : navire de soutien offshore (OSV),
+    couplage gîte/assiette, résistance à l'avancement.</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Ayoub Jemel — ayoubjemel25@gmail.com ·
+    <a href="https://www.linkedin.com/in/ayoub-jemel-a025a83ab/" target="_blank">LinkedIn</a>
+    · Projet développé en Python (NumPy, Matplotlib) — 2026
+  </div>
+</footer>
+
+<script>
+  // Lien GitHub : renseigner l'URL une fois le depot publie.
+  const GITHUB_URL = "";   // ex: "https://github.com/pseudo/fregate-hydrostatique"
+  if (GITHUB_URL) {
+    document.getElementById("ghlink").innerHTML =
+      ' · <a href="' + GITHUB_URL + '" target="_blank">Code source (GitHub)</a>';
+  }
+</script>
+</body>
+</html>
