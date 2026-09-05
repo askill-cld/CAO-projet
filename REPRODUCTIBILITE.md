@@ -1,19 +1,22 @@
-# Guide pas à pas — Refaire le projet toi-même
+# Protocole de reproduction des résultats
 
-Ce guide te fait reconstruire le projet de zéro. Le code des fichiers `.py` est
-ta **correction** : essaie d'abord, puis compare. Chaque étape correspond à un
-module du projet.
+Ce document décrit comment reconstruire l'outil de zéro et **retrouver les
+résultats publiés**. Chaque étape correspond à un module du projet et se termine
+par un critère de validation chiffré, ce qui permet de vérifier une
+réimplémentation indépendante.
+
+Les valeurs de référence à retrouver sont : déplacement 2 870 t, Cb 0,444,
+KB 2,81 m, GM 1,15 m, GZ maximal 0,59 m à 45°, angle d'annulation 83°.
 
 ---
 
-## Étape 0 — Préparer l'environnement
+## Étape 0 — Environnement
 
 ```bash
 python -m pip install numpy matplotlib
 ```
 
-Crée un dossier de projet et travaille dedans. Lance `python main.py` à la fin
-de chaque étape pour vérifier au fur et à mesure.
+Lancer `python main.py` après chaque étape pour contrôler la progression.
 
 ## Étape 1 — La méthode de Simpson (`outils.py`)
 
@@ -22,7 +25,8 @@ tableau de valeurs.
 
 - Rappel de la formule : `(h/3)·[f₀ + 4·(impairs) + 2·(pairs intérieurs) + f_N]`.
 - Contrainte : nombre **pair** d'intervalles (nombre impair de points).
-- Teste-la sur une fonction connue : `∫₀¹ x² dx = 1/3`. Tu dois retrouver 0.333.
+- Validation sur une intégrale connue : `∫₀¹ x² dx = 1/3`, la fonction doit
+  retourner 0.333.
 
 ## Étape 2 — La géométrie de la coque (`carene.py`)
 
@@ -47,8 +51,8 @@ Dans l'ordre, en intégrant par Simpson :
 4. Le plan de flottaison : `Aw`, `LCF`, puis `It = ∫ (2/3)·b³ dx`.
 5. `BMt = It/∇`, `KMt = KB + BMt`, `GMt = KMt − KG`.
 
-Repère de validation : tu dois retrouver `Cb ≈ 0.44`, `Δ ≈ 2870 t`,
-`GMt ≈ 1.15 m`. Si c'est le cas, ton hydrostatique est juste.
+Valeurs attendues : `Cb ≈ 0.44`, `Δ ≈ 2870 t`, `GMt ≈ 1.15 m`. Si elles sont
+retrouvées, l'hydrostatique est correcte.
 
 ## Étape 4 — La courbe de stabilité (`stabilite.py`)
 
@@ -61,8 +65,9 @@ La partie la plus exigeante. Pour chaque angle θ :
 4. Trouve `c` par **dichotomie** pour conserver le volume du navire droit.
 5. `GZ(θ) = ȳ_B·cosθ + (z̄_B − KG)·sinθ`.
 
-**Test de validation indispensable** : la pente de ta courbe GZ à l'origine doit
-être égale à GM (≈ 1.15 m). Si oui, ta géométrie et tes signes sont corrects.
+**Test de validation essentiel** : la pente de la courbe GZ à l'origine doit être
+égale à GM (≈ 1,15 m). C'est ce recoupement entre deux méthodes indépendantes qui
+valide la géométrie et les conventions de signe.
 
 ## Étape 5 — Les graphiques (`graphiques.py`)
 

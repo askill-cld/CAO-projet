@@ -61,26 +61,29 @@ Tout est régénéré : `figures/`, `exports/`, et `resultats.json`.
 
 ## Documentation
 
-- `RAPPORT.md` : le rapport technique (théorie, méthode, résultats).
-- `COURS.md` : cours sur les concepts d'architecture navale mobilisés et sur
-  la prise en main de Fusion 360.
-- `GUIDE_REFAIRE.md` : guide pas à pas pour reconstruire le projet soi-même
-  et importer la coque dans Fusion 360.
+- `RAPPORT.md` : le rapport technique complet (théorie, méthode, résultats,
+  validation).
+- `REPRODUCTIBILITE.md` : protocole permettant de reconstruire l'outil de zéro
+  et de retrouver les résultats publiés, avec un critère de validation chiffré
+  à chaque étape. Contient également les procédures d'import de la coque dans
+  Fusion 360 et SolidWorks.
+- `presentation/presentation.pptx` : présentation du projet en 9 slides.
+- `site/index.html` : page de présentation des résultats.
 
 ## Genèse du projet et usage de l'IA
 
 Par souci de transparence : **ce projet a été développé avec l'assistance de
-Claude (Anthropic)**, et l'historique Git en porte la trace.
+Claude (Anthropic)**.
 
 La répartition est la suivante. J'ai défini le sujet, le type de navire, ses
 paramètres principaux et le périmètre technique retenu ; l'assistant a écrit
 l'implémentation Python et la documentation. L'import et l'exploitation de la
 géométrie dans Fusion 360 sont de mon fait.
 
-Le dépôt contient délibérément un guide de reconstruction (`GUIDE_REFAIRE.md`)
-et un cours sur les concepts mobilisés (`COURS.md`) : la finalité de ce projet
-est avant tout pédagogique, et mon objectif est de réimplémenter l'outil
-moi-même, module par module, afin d'en maîtriser chaque étape.
+La finalité de ce projet est avant tout pédagogique. Mon objectif est de
+réimplémenter l'outil moi-même, module par module : c'est précisément à cela que
+sert le protocole `REPRODUCTIBILITE.md`, dont chaque étape se termine par un
+critère de validation chiffré.
 
 ## Limites et pistes d'amélioration (phase 2)
 
