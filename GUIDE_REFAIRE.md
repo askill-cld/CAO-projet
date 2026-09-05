@@ -104,6 +104,49 @@ puis lisser la carène entre eux.
 
 ---
 
+## Importer la coque dans SolidWorks
+
+Les fichiers exportés sont universels, donc le même projet se refait sous
+SolidWorks sans rien changer au code. C'est le logiciel le plus reconnu en
+bureau d'études, et il appartient à la même famille que CATIA (Dassault
+Systèmes), l'outil de Naval Group.
+
+### Voie A — Importer le maillage STL
+
+1. **Ouvrir** → sélectionne `exports/carene.stl`.
+2. Dans la boîte de dialogue, clique sur **Options** et choisis d'importer en
+   tant que **corps graphique** ou **corps solide**, avec l'unité en **mètres**.
+   Sans ça, SolidWorks interprète le fichier en millimètres et ta frégate fera
+   10 cm de long.
+3. Un corps STL est lourd et peu modifiable : garde cette voie pour visualiser
+   et faire des rendus, pas pour travailler la géométrie.
+
+### Voie B — Reconstruire par lissage à partir des couples (recommandé)
+
+1. **Ouvrir** → `exports/sections.dxf`, en choisissant **Importer vers une
+   nouvelle pièce** comme esquisse 2D.
+2. Crée des **plans de référence parallèles** espacés de 10 m
+   (Insertion → Géométrie de référence → Plan, avec un décalage).
+3. Place une esquisse de couple sur chaque plan.
+4. **Insertion → Bossage/Base → Lissage** : sélectionne les esquisses dans
+   l'ordre, de la poupe vers l'étrave. Utilise l'atelier **Surfaces** si tu veux
+   une peau de coque plutôt qu'un volume plein.
+5. Ferme le pont et la quille, puis **Insertion → Surface → Épaissir** pour
+   donner une épaisseur de bordé.
+
+### Le vrai bonus : SolidWorks sait calculer une partie de ton hydrostatique
+
+Une fois la coque en solide, **Outils → Évaluer → Propriétés de masse** te donne
+le volume et la position du centre de gravité. Si tu coupes la coque au niveau
+de la flottaison, tu obtiens le **volume immergé** et le **centre de carène**.
+
+C'est un excellent exercice : compare ces valeurs à celles de ton code Python
+(volume 2 800 m³, KB 2,81 m). Si elles concordent, tu as validé ton outil par
+une troisième méthode, complètement indépendante. Ce serait un argument très
+solide en entretien.
+
+---
+
 ## Pour aller plus loin (phase 2, 2027)
 
 - Ajouter de l'évasement de coque au-dessus de la flottaison.
